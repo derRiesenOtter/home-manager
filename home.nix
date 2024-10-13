@@ -18,6 +18,7 @@
     pkgs.zoxide
     pkgs.zellij
     pkgs.lazygit
+    pkgs.texliveFull
   ];
 
   programs.zoxide = {
@@ -37,6 +38,7 @@
       l = "eza -lah";
       vi = "nvim";
       vim = "nvim";
+      lg = "lazygit";
     };
   };
 
@@ -91,7 +93,7 @@
       }
       {
         mode = "n";
-        key = "<leader>fl";
+        key = "<leader>fg";
         action = "<cmd>Telescope live_grep<CR>";
       }
       {
@@ -142,7 +144,7 @@
       spell =true; 
     };
 
-    colorschemes.gruvbox.enable = true; 
+    colorschemes.gruvbox.enable = true;
     plugins = {
       lualine.enable = true;
       web-devicons.enable = true;
@@ -171,6 +173,13 @@
           };
         };
       };
+      luasnip = {
+        enable = true;
+        settings = {
+          enable_autosnippets = true;
+          store_selection_keys = "<Tab>";
+        };
+      };
       cmp = {
         enable = true;
         settings = {
@@ -181,24 +190,80 @@
             { name = "buffer"; }
             { name = "luasnip";}
           ];
-          mapping = {
-            "<C-j>" = "cmp.mapping.select_next_item()";
-            "<C-k>" = "cmp.mapping.select_prev_item()";
-            "<C-e>" = "cmp.mapping.abort()";
-          };
         };
+        luaConfig.content = ''
+local luasnip = require("luasnip")
+local cmp = require("cmp")
+
+cmp.setup({
+
+  -- ... Your other configuration ...
+
+  mapping = {
+
+    -- ... Your other mappings ...
+   ['<CR>'] = cmp.mapping(function(fallback)
+        if cmp.visible() then
+            if luasnip.expandable() then
+                luasnip.expand()
+            else
+                cmp.confirm({
+                    select = true,
+                })
+            end
+        else
+            fallback()
+        end
+    end),
+
+    ["<Tab>"] = cmp.mapping(function(fallback)
+      if cmp.visible() then
+        cmp.select_next_item()
+      elseif luasnip.locally_jumpable(1) then
+        luasnip.jump(1)
+      else
+        fallback()
+      end
+    end, { "i", "s" }),
+
+    ["<S-Tab>"] = cmp.mapping(function(fallback)
+      if cmp.visible() then
+        cmp.select_prev_item()
+      elseif luasnip.locally_jumpable(-1) then
+        luasnip.jump(-1)
+      else
+        fallback()
+      end
+    end, { "i", "s" }),
+
+    -- ... Your other mappings ...
+  },
+
+  -- ... Your other configuration ...
+})
+        '';
       };
       cmp-nvim-lsp.enable = true;
       cmp-rg.enable = true;
       cmp-buffer.enable = true;
       cmp_luasnip.enable = true;
       cmp-cmdline.enable = true;
+      friendly-snippets.enable = true;
       lsp-format.enable = true;
+      lint = {
+        enable = true;
+        lintersByFt = {
+          text = [ "vale" ];
+          json = [ "jsonlint" ];
+          markdown = [ "vale" ];
+        };
+      }; 
       lsp = {
         enable = true;
         servers = {
           nixd.enable = true;
           r-language-server.enable = true;
+          texlab.enable = true;
           # pyright.enable = true;
         };
         keymaps = {
@@ -219,6 +284,7 @@
           markdown
           nix
           r
+          latex
         ];
       };
     };
