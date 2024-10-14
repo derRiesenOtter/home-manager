@@ -16,9 +16,9 @@
     pkgs.eza
     pkgs.fzf
     pkgs.zoxide
-    pkgs.zellij
     pkgs.lazygit
     pkgs.texliveFull
+    pkgs.zellij
   ];
 
   programs.zoxide = {
@@ -292,7 +292,7 @@ cmp.setup({
   };
   
   home.file = {
-    ".wezterm.lua".source = ./dotfiles/wezterm.lua;
+    ".wezterm.lua".source = ./dotfiles/wezterm.lua;    
     ".config/zellij/config.kdl".source = ./dotfiles/zellij.kdl;
     ".config/zellij/layouts/default.kdl".source = ./dotfiles/zellij_layouts.kdl;
   };
