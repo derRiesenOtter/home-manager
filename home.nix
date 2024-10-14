@@ -255,7 +255,6 @@ cmp.setup({
         lintersByFt = {
           text = [ "vale" ];
           json = [ "jsonlint" ];
-          markdown = [ "vale" ];
         };
       }; 
       lsp = {
