@@ -155,12 +155,10 @@
         enable = true;
         settings = {
           target = "zellij";
-          default_config = 
-                {
-                  session_id = "current";
-                  relative_pane = "down";
-                }
-          ;
+          default_config = {
+              session_id = "current";
+              relative_pane = "down";
+          };
         };
       };
       nvim-autopairs.enable = true;
