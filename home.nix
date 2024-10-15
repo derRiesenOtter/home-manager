@@ -1,14 +1,17 @@
-{ inputs, lib, config, pkgs, ... }:
+{ pkgs, ... }:
 
-{ 
+{
   home.username = "robin";
   home.homeDirectory = "/Users/robin";
-  
-  home.stateVersion = "24.05"; 
+
+  home.stateVersion = "24.05";
 
   nix = {
     package = pkgs.nix;
-    settings.experimental-features = [ "nix-command" "flakes" ];
+    settings.experimental-features = [
+      "nix-command"
+      "flakes"
+    ];
   };
 
   home.packages = [
@@ -25,7 +28,7 @@
     enable = true;
     enableZshIntegration = true;
     options = [
-    "--cmd cd"
+      "--cmd cd"
     ];
   };
 
@@ -36,8 +39,6 @@
     syntaxHighlighting.enable = true;
     shellAliases = {
       l = "eza -lah";
-      vi = "nvim";
-      vim = "nvim";
       lg = "lazygit";
     };
   };
@@ -59,243 +60,139 @@
     };
   };
 
-  programs.oh-my-posh = {
+  programs.starship = {
     enable = true;
-    useTheme = "gruvbox";
   };
 
-  programs.nixvim = {
+  # programs.oh-my-posh = {
+  #   enable = true;
+  #   useTheme = "gruvbox";
+  # };
 
-    enable = true;
-    globals.mapleader = " ";
-    clipboard.register = "unnamedplus";
-
-    keymaps = [
-      {
-        mode = "n";
-        key = "<leader>nh";
-        action = "<cmd>nohl<CR>";
-      }
-      {
-        mode = "i";
-        key = "jk";
-        action = "<ESC>";
-      }
-      {
-        mode = "n";
-        key = "<leader>+";
-        action = "<C-a>";
-      } 
-      {
-        mode = "n";
-        key = "<leader>-";
-        action = "<C-x>";
-      }
-      {
-        mode = "n";
-        key = "<leader>fg";
-        action = "<cmd>Telescope live_grep<CR>";
-      }
-      {
-        mode = "n";
-        key = "<leader>ff";
-        action = "<cmd>Telescope find_files<CR>";
-      }
-      {
-        mode = "n";
-        key = "<leader>fr";
-        action = "<cmd>Telescope oldfiles<CR>";
-      }
-      {
-        mode = "n";
-        key = "<leader>ee";
-        action = "<cmd>NvimTreeToggle<CR>";
-      }
-      {
-        mode = "x";
-        key = "<leader>p";
-        action = ''"_dp'';
-      }
-      {
-        mode = [
-          "n"
-          "v"
-        ];
-        key = "<leader>d";
-        action = ''"_d'';
-      }
-    ];
-
-    opts = {
-      relativenumber = true;
-      number = true;
-      tabstop = 2;
-      shiftwidth = 2;
-      expandtab = true;
-      autoindent = true;
-      wrap = false;
-      ignorecase = true;
-      smartcase = true;
-      cursorline = true;
-      termguicolors = true;
-      signcolumn = "yes";
-      swapfile = false;
-      spelllang = "en,de";
-      spell =true; 
+  programs.neovim =
+    let
+      toLua = str: "lua << EOF\n${str}\nEOF\n";
+      toLuaFile = file: "lua << EOF\n${builtins.readFile file}\nEOF\n";
+    in
+    {
+      enable = true;
+      viAlias = true;
+      vimAlias = true;
+      vimdiffAlias = true;
+      extraPackages = with pkgs; [
+        lua-language-server
+        nixd
+        rPackages.languageserver
+        pyright
+        texlab
+        stylua
+        nixfmt-rfc-style
+        rPackages.formatR
+        vale
+      ];
+      extraLuaConfig = ''
+        ${builtins.readFile ./nvim/options.lua}
+        ${builtins.readFile ./nvim/keymaps.lua}
+      '';
+      plugins = with pkgs.vimPlugins; [
+        {
+          plugin = nvim-lspconfig;
+          config = toLuaFile ./nvim/plugins/lsp.lua;
+        }
+        {
+          plugin = gruvbox-nvim;
+          config = "colorscheme gruvbox";
+        }
+        {
+          plugin = comment-nvim;
+          config = toLua "require('Comment').setup()";
+        }
+        {
+          plugin = telescope-nvim;
+          config = toLuaFile ./nvim/plugins/telescope.lua;
+        }
+        telescope-fzf-native-nvim
+        which-key-nvim
+        auto-pairs
+        {
+          plugin = lualine-nvim;
+          config = toLua "require('lualine').setup()";
+        }
+        nvim-web-devicons
+        luasnip
+        friendly-snippets
+        {
+          plugin = yanky-nvim;
+          config = toLua "require('yanky').setup()";
+        }
+        cmp_luasnip
+        cmp-nvim-lsp
+        cmp-buffer
+        cmp-path
+        cmp_yanky
+        lspkind-nvim
+        dressing-nvim
+        lazygit-nvim
+        {
+          plugin = nvim-surround;
+          config = toLua "require('nvim-surround').setup()";
+        }
+        {
+          plugin = substitute-nvim;
+          config = toLua "require('substitute').setup()";
+        }
+        {
+          plugin = nvim-tree-lua;
+          config = toLua "require('nvim-tree').setup()";
+        }
+        {
+          plugin = nvim-lint;
+          config = toLuaFile ./nvim/plugins/lint.lua;
+        }
+        {
+          plugin = indent-blankline-nvim;
+          config = toLua "require('ibl').setup()";
+        }
+        {
+          plugin = conform-nvim;
+          config = toLuaFile ./nvim/plugins/conform.lua;
+        }
+        {
+          plugin = nvim-cmp;
+          config = toLuaFile ./nvim/plugins/cmp.lua;
+        }
+        {
+          plugin = gitsigns-nvim;
+          config = toLuaFile ./nvim/plugins/gitsigns.lua;
+        }
+        {
+          plugin = (
+            nvim-treesitter.withPlugins (p: [
+              p.tree-sitter-nix
+              p.tree-sitter-vim
+              p.tree-sitter-bash
+              p.tree-sitter-lua
+              p.tree-sitter-python
+              p.tree-sitter-json
+              p.tree-sitter-r
+              p.tree-sitter-latex
+              p.markdown_inline
+              p.gitignore
+            ])
+          );
+          config = toLuaFile ./nvim/plugins/treesitter.lua;
+        }
+      ];
     };
 
-    colorschemes.gruvbox.enable = true;
-    plugins = {
-      lualine.enable = true;
-      web-devicons.enable = true;
-      nvim-tree.enable = true;
-      which-key.enable = true;
-      comment.enable = true;
-      vim-slime = {
-        enable = true;
-        settings = {
-          target = "zellij";
-          default_config = {
-              session_id = "current";
-              relative_pane = "down";
-          };
-        };
-      };
-      nvim-autopairs.enable = true;
-      telescope = {
-        enable = true;
-        settings = {
-          defaults.mappings.i = {
-            "<C-k>" = "move_selection_previous";
-            "<C-j>" = "move_selection_next";
-          };
-        };
-      };
-      luasnip = {
-        enable = true;
-        settings = {
-          enable_autosnippets = true;
-          store_selection_keys = "<Tab>";
-        };
-      };
-      cmp = {
-        enable = true;
-        settings = {
-          autoEnableSources = true;
-          sources = [
-            { name = "nvim_lsp"; }
-            { name = "path"; }
-            { name = "buffer"; }
-            { name = "luasnip";}
-          ];
-        };
-        luaConfig.content = ''
-local luasnip = require("luasnip")
-local cmp = require("cmp")
-
-cmp.setup({
-
-  -- ... Your other configuration ...
-
-  mapping = {
-
-    -- ... Your other mappings ...
-   ['<CR>'] = cmp.mapping(function(fallback)
-        if cmp.visible() then
-            if luasnip.expandable() then
-                luasnip.expand()
-            else
-                cmp.confirm({
-                    select = true,
-                })
-            end
-        else
-            fallback()
-        end
-    end),
-
-    ["<Tab>"] = cmp.mapping(function(fallback)
-      if cmp.visible() then
-        cmp.select_next_item()
-      elseif luasnip.locally_jumpable(1) then
-        luasnip.jump(1)
-      else
-        fallback()
-      end
-    end, { "i", "s" }),
-
-    ["<S-Tab>"] = cmp.mapping(function(fallback)
-      if cmp.visible() then
-        cmp.select_prev_item()
-      elseif luasnip.locally_jumpable(-1) then
-        luasnip.jump(-1)
-      else
-        fallback()
-      end
-    end, { "i", "s" }),
-
-    -- ... Your other mappings ...
-  },
-
-  -- ... Your other configuration ...
-})
-        '';
-      };
-      cmp-nvim-lsp.enable = true;
-      cmp-rg.enable = true;
-      cmp-buffer.enable = true;
-      cmp_luasnip.enable = true;
-      cmp-cmdline.enable = true;
-      friendly-snippets.enable = true;
-      lsp-format.enable = true;
-      lint = {
-        enable = true;
-        lintersByFt = {
-          text = [ "vale" ];
-          json = [ "jsonlint" ];
-        };
-      }; 
-      lsp = {
-        enable = true;
-        servers = {
-          nixd.enable = true;
-          r-language-server.enable = true;
-          texlab.enable = true;
-          # pyright.enable = true;
-        };
-        keymaps = {
-          silent = true;
-          lspBuf = {
-            gd.action = "definition";
-            gr.action = "references";
-            gD.action = "declaration";
-            gI.action = "implementation";
-            gT.action = "type_definition";
-            "<leader>cr".action = "rename";
-          };
-        };
-      };
-      treesitter = {
-        enable = true;
-        grammarPackages = with pkgs.vimPlugins.nvim-treesitter.builtGrammars; [
-          markdown
-          nix
-          r
-          latex
-        ];
-      };
-    };
-
-  };
-  
   home.file = {
-    ".wezterm.lua".source = ./dotfiles/wezterm.lua;    
+    ".wezterm.lua".source = ./dotfiles/wezterm.lua;
     ".config/zellij/config.kdl".source = ./dotfiles/zellij.kdl;
     ".config/zellij/layouts/default.kdl".source = ./dotfiles/zellij_layouts.kdl;
   };
 
   home.sessionVariables = {
-    EDITOR = "nixvim";
+    EDITOR = "nvim";
   };
 
   programs.home-manager.enable = true;

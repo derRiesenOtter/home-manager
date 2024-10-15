@@ -2,7 +2,7 @@ local wezterm = require("wezterm")
 
 local config = wezterm.config_builder()
 
-config.color_scheme = 'Gruvbox Dark (Gogh)'
+config.color_scheme = "Gruvbox Dark (Gogh)"
 config.initial_rows = 42
 config.initial_cols = 130
 config.font = wezterm.font("MesloLGS NF")
