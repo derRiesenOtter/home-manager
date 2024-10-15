@@ -64,11 +64,6 @@
     enable = true;
   };
 
-  # programs.oh-my-posh = {
-  #   enable = true;
-  #   useTheme = "gruvbox";
-  # };
-
   programs.neovim =
     let
       toLua = str: "lua << EOF\n${str}\nEOF\n";
@@ -89,6 +84,7 @@
         nixfmt-rfc-style
         rPackages.formatR
         vale
+        rPackages.lintr
       ];
       extraLuaConfig = ''
         ${builtins.readFile ./nvim/options.lua}
