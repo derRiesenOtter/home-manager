@@ -1,16 +1,13 @@
 local lspkind = require("lspkind")
 local luasnip = require("luasnip")
+local cmp_autopairs = require("nvim-autopairs.completion.cmp")
 local cmp = require("cmp")
-
 cmp.setup({
 
-	snippet = {
-		expand = function(args)
-			require("luasnip").lsp_expand(args.body)
-		end,
-	},
-
 	mapping = {
+
+		["<C-k>"] = cmp.mapping.scroll_docs(-4),
+		["<C-j>"] = cmp.mapping.scroll_docs(4),
 
 		["<CR>"] = cmp.mapping(function(fallback)
 			if cmp.visible() then
@@ -45,9 +42,6 @@ cmp.setup({
 				fallback()
 			end
 		end, { "i", "s" }),
-
-		["<C-p>"] = cmp.mapping.scroll_docs(-4),
-		["<C-n>"] = cmp.mapping.scroll_docs(4),
 	},
 
 	sources = cmp.config.sources({
@@ -56,6 +50,7 @@ cmp.setup({
 		{ name = "buffer" },
 		{ name = "path" },
 		{ name = "cmp_yanky" },
+		{ name = "nvim_lsp_signature_help" },
 	}),
 
 	formatting = {
@@ -67,3 +62,5 @@ cmp.setup({
 		}),
 	},
 })
+
+cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done())

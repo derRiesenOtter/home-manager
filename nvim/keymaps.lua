@@ -5,6 +5,11 @@ vim.keymap.set("n", "<leader>nh", ":nohl<CR>", { desc = "Clear search highlights
 vim.keymap.set("n", "<leader>+", "<C-a>", { desc = "Increment number" })
 vim.keymap.set("n", "<leader>-", "<C-x>", { desc = "Decrement number" })
 
+vim.keymap.set("n", "<C-h>", "<C-w>h", { desc = "Navigate to the left window" })
+vim.keymap.set("n", "<C-j>", "<C-w>j", { desc = "Navigate to the window below" })
+vim.keymap.set("n", "<C-k>", "<C-w>k", { desc = "Navigate to the window above" })
+vim.keymap.set("n", "<C-l>", "<C-w>l", { desc = "Navigate to the right window" })
+
 vim.keymap.set({ "n", "x" }, "p", "<Plug>(YankyPutAfter)")
 vim.keymap.set({ "n", "x" }, "P", "<Plug>(YankyPutBefore)")
 vim.keymap.set({ "n", "x" }, "gp", "<Plug>(YankyGPutAfter)")
@@ -20,6 +25,8 @@ vim.keymap.set("n", "s", require("substitute").operator, { noremap = true })
 vim.keymap.set("n", "ss", require("substitute").line, { noremap = true })
 vim.keymap.set("n", "S", require("substitute").eol, { noremap = true })
 vim.keymap.set("x", "s", require("substitute").visual, { noremap = true })
+
+vim.keymap.set("n", "<leader>fd", ":TodoTelescope<CR>", { desc = "Telescope TODO" })
 
 local harpoon_mark = require("harpoon.mark")
 vim.keymap.set("n", "<leader>fa", harpoon_mark.add_file, { desc = "Add file to Harpoon" })

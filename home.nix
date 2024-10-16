@@ -107,13 +107,24 @@
         }
         telescope-fzf-native-nvim
         which-key-nvim
-        auto-pairs
+        {
+          plugin = nvim-autopairs;
+          config = toLua "require('nvim-autopairs').setup()";
+        }
         {
           plugin = lualine-nvim;
           config = toLua "require('lualine').setup()";
         }
         nvim-web-devicons
-        # TODO friendly-snippets does not work yet
+        {
+          plugin = todo-comments-nvim;
+          config = toLua "require('todo-comments').setup()";
+        }
+        # TODO: enable custom snippets
+        {
+          plugin = luasnip;
+          config = toLua "require('luasnip.loaders.from_vscode').lazy_load()";
+        }
         luasnip
         friendly-snippets
         {
@@ -125,10 +136,12 @@
         cmp-buffer
         cmp-path
         cmp_yanky
+        cmp-nvim-lsp-signature-help
         lspkind-nvim
         dressing-nvim
         lazygit-nvim
-        # TODO be able to navigate nvim panes (maybe tmux is required)
+        # TODO:tmux
+        # TODO:go over the keymaps
         {
           plugin = vim-slime;
           config = toLuaFile ./nvim/plugins/slime.lua;
