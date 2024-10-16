@@ -82,6 +82,7 @@
         stylua
         nixfmt-rfc-style
         vale
+        marksman
       ];
       extraLuaConfig = ''
         ${builtins.readFile ./nvim/options.lua}
