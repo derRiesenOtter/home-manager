@@ -13,7 +13,7 @@ vim.keymap.set({ "n", "x" }, "gP", "<Plug>(YankyGPutBefore)")
 vim.keymap.set("n", "<c-n>", "<Plug>(YankyPreviousEntry)")
 vim.keymap.set("n", "<c-p>", "<Plug>(YankyNextEntry)")
 
-vim.keymap.set("n", "lg", ":LazyGit<CR>", { desc = "LazyGit" })
+vim.keymap.set("n", "gg", ":LazyGit<CR>", { desc = "LazyGit" })
 vim.keymap.set("n", "<leader>ee", ":NvimTreeToggle<CR>", { desc = "Nvim Tree toggle" })
 
 vim.keymap.set("n", "s", require("substitute").operator, { noremap = true })

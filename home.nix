@@ -39,7 +39,7 @@
     syntaxHighlighting.enable = true;
     shellAliases = {
       l = "eza -lah";
-      lg = "lazygit";
+      gg = "lazygit";
     };
   };
 
@@ -113,6 +113,7 @@
           config = toLua "require('lualine').setup()";
         }
         nvim-web-devicons
+        # TODO friendly-snippets does not work yet
         luasnip
         friendly-snippets
         {
@@ -127,6 +128,7 @@
         lspkind-nvim
         dressing-nvim
         lazygit-nvim
+        # TODO be able to navigate nvim panes (maybe tmux is required)
         {
           plugin = vim-slime;
           config = toLuaFile ./nvim/plugins/slime.lua;
