@@ -128,6 +128,10 @@
         dressing-nvim
         lazygit-nvim
         {
+          plugin = vim-slime;
+          config = toLuaFile ./nvim/plugins/slime.lua;
+        }
+        {
           plugin = harpoon;
           config = toLua "require('harpoon').setup()";
         }
