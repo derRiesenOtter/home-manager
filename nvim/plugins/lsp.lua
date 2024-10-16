@@ -38,10 +38,10 @@ vim.api.nvim_create_autocmd("LspAttach", {
 		vim.keymap.set("n", "<leader>d", vim.diagnostic.open_float, opts)
 
 		opts.desc = "Go to previous diagnostic"
-		vim.keymap.set("n", "pd", vim.diagnostic.goto_prev, opts)
+		vim.keymap.set("n", "<leader>pd", vim.diagnostic.goto_prev, opts)
 
 		opts.desc = "Go to next diagnostic"
-		vim.keymap.set("n", "nd", vim.diagnostic.goto_next, opts)
+		vim.keymap.set("n", "<leader>nd", vim.diagnostic.goto_next, opts)
 
 		opts.desc = "Show documentation for what is under cursor"
 		vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)

@@ -117,7 +117,7 @@
         friendly-snippets
         {
           plugin = yanky-nvim;
-          config = toLua "require('yanky').setup()";
+          config = toLuaFile ./nvim/plugins/yanky.lua;
         }
         cmp_luasnip
         cmp-nvim-lsp
