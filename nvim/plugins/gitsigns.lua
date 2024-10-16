@@ -8,24 +8,22 @@ require("gitsigns").setup({
 			vim.keymap.set(mode, l, r, opts)
 		end
 
-		-- Navigation
-		map("n", "]c", function()
+		map("n", "<leader>hj", function()
 			if vim.wo.diff then
-				vim.cmd.normal({ "]c", bang = true })
+				vim.cmd.normal({ "<leader>hj", bang = true })
 			else
 				gitsigns.nav_hunk("next")
 			end
 		end)
 
-		map("n", "[c", function()
+		map("n", "<leader>hk", function()
 			if vim.wo.diff then
-				vim.cmd.normal({ "[c", bang = true })
+				vim.cmd.normal({ "<leader>hk", bang = true })
 			else
 				gitsigns.nav_hunk("prev")
 			end
 		end)
 
-		-- Actions
 		map("n", "<leader>hs", gitsigns.stage_hunk)
 		map("n", "<leader>hr", gitsigns.reset_hunk)
 		map("v", "<leader>hs", function()
@@ -48,7 +46,6 @@ require("gitsigns").setup({
 		end)
 		map("n", "<leader>td", gitsigns.toggle_deleted)
 
-		-- Text object
 		map({ "o", "x" }, "ih", ":<C-U>Gitsigns select_hunk<CR>")
 	end,
 })

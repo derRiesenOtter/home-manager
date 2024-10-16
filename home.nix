@@ -128,6 +128,10 @@
         dressing-nvim
         lazygit-nvim
         {
+          plugin = harpoon;
+          config = toLua "require('harpoon').setup()";
+        }
+        {
           plugin = nvim-surround;
           config = toLua "require('nvim-surround').setup()";
         }
