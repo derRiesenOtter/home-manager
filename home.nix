@@ -77,14 +77,11 @@
       extraPackages = with pkgs; [
         lua-language-server
         nixd
-        rPackages.languageserver
         pyright
         texlab
         stylua
         nixfmt-rfc-style
-        rPackages.formatR
         vale
-        rPackages.lintr
       ];
       extraLuaConfig = ''
         ${builtins.readFile ./nvim/options.lua}
