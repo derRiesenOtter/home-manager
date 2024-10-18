@@ -1,4 +1,6 @@
 { config, pkgs, ... }:
+# TODO:go over the keymaps
+# TODO: enable custom snippets
 
 {
   home.username = "robin";
@@ -132,6 +134,10 @@
         telescope-fzf-native-nvim
         which-key-nvim
         {
+          plugin = neogit;
+          config = toLua "require('neogit').setup()";
+        }
+        {
           plugin = nvim-autopairs;
           config = toLua "require('nvim-autopairs').setup()";
         }
@@ -144,7 +150,6 @@
           plugin = todo-comments-nvim;
           config = toLua "require('todo-comments').setup()";
         }
-        # TODO: enable custom snippets
         {
           plugin = luasnip;
           config = toLua "require('luasnip.loaders.from_vscode').lazy_load()";
@@ -165,8 +170,6 @@
         dressing-nvim
         lazygit-nvim
         vim-tmux-navigator
-        # TODO:tmux
-        # TODO:go over the keymaps
         {
           plugin = vim-slime;
           config = toLuaFile ./nvim/plugins/slime.lua;
