@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ config, pkgs, ... }:
 
 {
   home.username = "robin";
@@ -21,14 +21,38 @@
     pkgs.zoxide
     pkgs.lazygit
     pkgs.texliveFull
-    pkgs.zellij
   ];
+
+  programs.wezterm = {
+    enable = true;
+    extraConfig = builtins.readFile ./dotfiles/wezterm.lua;
+  };
 
   programs.zoxide = {
     enable = true;
     enableZshIntegration = true;
     options = [
       "--cmd cd"
+    ];
+  };
+
+  programs.tmux = {
+    enable = true;
+    extraConfig = builtins.readFile ./dotfiles/tmux.conf;
+    plugins = with pkgs; [
+      {
+        plugin = tmuxPlugins.resurrect;
+        extraConfig = "set -g @resurrect-strategy-nvim 'session'";
+      }
+      {
+        plugin = tmuxPlugins.continuum;
+        extraConfig = ''
+          set -g @continuum-restore 'on'
+          set -g @continuum-save-interval '5' # minutes
+        '';
+      }
+      tmuxPlugins.vim-tmux-navigator
+      tmuxPlugins.gruvbox
     ];
   };
 
@@ -140,6 +164,7 @@
         lspkind-nvim
         dressing-nvim
         lazygit-nvim
+        vim-tmux-navigator
         # TODO:tmux
         # TODO:go over the keymaps
         {
@@ -202,14 +227,13 @@
       ];
     };
 
-  home.file = {
-    ".wezterm.lua".source = ./dotfiles/wezterm.lua;
-    ".config/zellij/config.kdl".source = ./dotfiles/zellij.kdl;
-    ".config/zellij/layouts/default.kdl".source = ./dotfiles/zellij_layouts.kdl;
-  };
+  home.file =
+    {
+    };
 
   home.sessionVariables = {
     EDITOR = "nvim";
+    SHELL = "${pkgs.zsh}/bin/zsh";
   };
 
   programs.home-manager.enable = true;
