@@ -1,6 +1,5 @@
 { config, pkgs, ... }:
 # TODO:go over the keymaps
-# TODO: enable custom snippets
 
 {
   home.username = "robin";
@@ -19,11 +18,15 @@
   home.packages = [
     pkgs.ripgrep
     pkgs.eza
-    pkgs.fzf
     pkgs.zoxide
     pkgs.lazygit
     pkgs.texliveFull
   ];
+
+  programs.fzf = {
+    enable = true;
+    tmux.enableShellIntegration = true;
+  };
 
   programs.wezterm = {
     enable = true;
@@ -67,6 +70,7 @@
       l = "eza -lah";
       gg = "lazygit";
     };
+    initExtra = builtins.readFile ./dotfiles/zshrc;
   };
 
   programs.direnv = {
@@ -84,6 +88,11 @@
         defaultBranch = "main";
       };
     };
+    ignores = [
+      ".DS_Store"
+      ".direnv"
+      ".envrc"
+    ];
   };
 
   programs.starship = {
@@ -152,7 +161,7 @@
         }
         {
           plugin = luasnip;
-          config = toLua "require('luasnip.loaders.from_vscode').lazy_load()";
+          config = toLuaFile ./nvim/plugins/luasnip.lua;
         }
         luasnip
         friendly-snippets
@@ -230,9 +239,9 @@
       ];
     };
 
-  home.file =
-    {
-    };
+  home.file = {
+    ".config/nvim/snippets/tex.snippets".source = ./nvim/snippets/tex.snippets;
+  };
 
   home.sessionVariables = {
     EDITOR = "nvim";
