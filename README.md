@@ -13,16 +13,19 @@ git clone git@github.com:derRiesenOtter/nix-darwin.git
 6. [Initialize home-manager](https://nix-community.github.io/home-manager/index.xhtml#sec-flakes-standalone)
 ```sh 
 cd ~/.config/home-manager/
-nix run home-manager/master -- init --switch
+nix run home-manager/master -- init --switch --flake ~/.config/home-manager/#robin@mac_arm
+nix run home-manager/master -- init --switch --flake ~/.config/home-manager/#robin@linux_x86
 ```
 
 # Updating of home-manager
 ## Updating the configuration
 ```sh
-home-manager switch
+home-manager switch --flake ~/.config/home-manager/#robin@mac_arm
+home-manager switch --flake ~/.config/home-manager/#robin@linux_x86
 ```
 
 ## Upgrading the configuration
 ```sh 
+cd ~/.config/home-manager/
 nix flake update
 ```
