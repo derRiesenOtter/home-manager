@@ -7,8 +7,8 @@
   home.stateVersion = "24.05";
 
   imports = [
-    ./modules/apps.nix
-    ./modules/nvim/nvim.nix
+    ../../modules/apps.nix
+    ../../modules/nvim/nvim.nix
   ];
 
   nix = {
@@ -20,7 +20,7 @@
   };
 
   home.file = {
-    ".config/nvim/snippets/tex.snippets".source = ./modules/nvim/snippets/tex.snippets;
+    ".config/nvim/snippets/tex.snippets".source = ../../modules/nvim/snippets/tex.snippets;
   };
 
   home.sessionVariables = {

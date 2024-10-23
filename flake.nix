@@ -11,17 +11,22 @@
 
   outputs =
     { nixpkgs, home-manager, ... }:
-    let
-      system = "aarch64-darwin";
-      pkgs = nixpkgs.legacyPackages.${system};
-    in
+
     {
-      homeConfigurations."robin" = home-manager.lib.homeManagerConfiguration {
-        inherit pkgs;
+      homeConfigurations."robin@mac_arm" = home-manager.lib.homeManagerConfiguration {
+        pkgs = nixpkgs.legacyPackages.aarch64-darwin;
 
         modules = [
-          ./home.nix
+          ./systems/mac/home.nix
         ];
       };
+
+      homeConfigurations."robin@linux_x86" = home-manager.lib.homeManagerConfiguration {
+        pkgs = nixpkgs.legacyPackages.x86_64-linux;
+        modules = [
+          ./systems/linux/home.nix
+        ];
+      };
+
     };
 }
