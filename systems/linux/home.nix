@@ -21,11 +21,12 @@
 
   home.file = {
     ".config/nvim/snippets/tex.snippets".source = ../../modules/nvim/snippets/tex.snippets;
+    ".config/wezterm/wezterm.lua".source = ../../modules/dotfiles/wezterm.lua;
   };
 
   home.sessionVariables = {
     EDITOR = "nvim";
-    SHELL = "${pkgs.zsh}/bin/zsh";
+    SHELL = "${pkgs.bash}/bin/bash";
   };
 
   programs.home-manager.enable = true;

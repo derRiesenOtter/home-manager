@@ -31,8 +31,12 @@
           config = toLuaFile ./plugins/lsp.lua;
         }
         {
-          plugin = gruvbox-nvim;
-          config = "colorscheme gruvbox";
+          plugin = markdown-nvim;
+          config = toLua "require('markdown').setup()";
+        }
+        {
+          plugin = tokyonight-nvim;
+          config = "colorscheme tokyonight-night";
         }
         {
           plugin = comment-nvim;
@@ -71,6 +75,7 @@
           plugin = yanky-nvim;
           config = toLuaFile ./plugins/yanky.lua;
         }
+        render-markdown-nvim
         cmp_luasnip
         cmp-nvim-lsp
         cmp-buffer

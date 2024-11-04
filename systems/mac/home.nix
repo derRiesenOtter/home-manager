@@ -21,6 +21,7 @@
 
   home.file = {
     ".config/nvim/snippets/tex.snippets".source = ../../modules/nvim/snippets/tex.snippets;
+    ".config/wezterm/wezterm.lua".source = ../../modules/dotfiles/wezterm.lua;
   };
 
   home.sessionVariables = {

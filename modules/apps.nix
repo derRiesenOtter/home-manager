@@ -6,6 +6,7 @@
     pkgs.eza
     pkgs.lazygit
     pkgs.texliveFull
+    pkgs.tree
   ];
 
   programs = {
@@ -22,23 +23,45 @@
       };
     };
 
+    bash = {
+      enable = true;
+      enableCompletion = true;
+      shellAliases = {
+        l = "eza -lah";
+        gg = "lazygit";
+      };
+    };
+
     tmux = {
       enable = true;
+      sensibleOnTop = false;
       extraConfig = builtins.readFile ./dotfiles/tmux.conf;
       plugins = with pkgs; [
+        tmuxPlugins.vim-tmux-navigator
+        {
+          plugin = tmuxPlugins.tokyo-night-tmux;
+          extraConfig = ''
+            set -g @tokyo-night-tmux_window_id_style none
+            set -g @tokyo-night-tmux_pane_id_style hsquare
+            set -g @tokyo-night-tmux_zoom_id_style dsquare
+            set -g @tokyo-night-tmux_show_datetime 0
+            set -g @tokyo-night-tmux_show_git 0
+          '';
+        }
         {
           plugin = tmuxPlugins.resurrect;
-          extraConfig = "set -g @resurrect-strategy-nvim 'session'";
+          extraConfig = ''
+            set -g @resurrect-strategy-nvim 'session'
+            set -g @resurrect-capture-pane-contents 'on'
+          '';
         }
         {
           plugin = tmuxPlugins.continuum;
           extraConfig = ''
             set -g @continuum-restore 'on'
-            set -g @continuum-save-interval '5' # minutes
+            set -g @continuum-save-interval '5'
           '';
         }
-        tmuxPlugins.vim-tmux-navigator
-        tmuxPlugins.gruvbox
       ];
     };
 
@@ -62,11 +85,6 @@
       enable = true;
       enableZshIntegration = true;
       nix-direnv.enable = true;
-    };
-
-    wezterm = {
-      enable = true;
-      extraConfig = builtins.readFile ./dotfiles/wezterm.lua;
     };
 
     fzf = {

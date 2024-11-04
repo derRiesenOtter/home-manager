@@ -5,7 +5,7 @@ require("conform").setup({
 	},
 	formatters_by_ft = {
 		lua = { "stylua" },
-		-- python = { "isort", "black" },
+		python = { "isort", "black" },
 		nix = { "nixfmt" },
 		r = { "formatR" },
 	},

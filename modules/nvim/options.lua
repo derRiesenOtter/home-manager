@@ -1,4 +1,5 @@
 vim.cmd([[hi SignColumn guibg=NONE]])
+vim.cmd([[set colorcolumn=80]])
 vim.opt.relativenumber = true
 vim.opt.number = true
 vim.opt.tabstop = 2
