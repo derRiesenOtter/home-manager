@@ -2,7 +2,7 @@ local wezterm = require("wezterm")
 
 local config = wezterm.config_builder()
 
-config.color_scheme = "Tokyo Night"
+config.color_scheme = "carbonfox"
 config.initial_rows = 42
 config.initial_cols = 130
 config.font = wezterm.font("MesloLGS NF")

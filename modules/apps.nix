@@ -1,12 +1,16 @@
 { config, pkgs, ... }:
 
 {
-  home.packages = [
-    pkgs.ripgrep
-    pkgs.eza
-    pkgs.lazygit
-    pkgs.texliveFull
-    pkgs.tree
+  home.packages = with pkgs; [
+    ripgrep
+    eza
+    lazygit
+    texliveFull
+    tree
+    cowsay
+    lolcat
+    sl
+    fortune
   ];
 
   programs = {
@@ -20,6 +24,7 @@
       shellAliases = {
         l = "eza -lah";
         gg = "lazygit";
+        sl = "sl | lolcat";
       };
     };
 
@@ -38,16 +43,6 @@
       extraConfig = builtins.readFile ./dotfiles/tmux.conf;
       plugins = with pkgs; [
         tmuxPlugins.vim-tmux-navigator
-        {
-          plugin = tmuxPlugins.tokyo-night-tmux;
-          extraConfig = ''
-            set -g @tokyo-night-tmux_window_id_style none
-            set -g @tokyo-night-tmux_pane_id_style hsquare
-            set -g @tokyo-night-tmux_zoom_id_style dsquare
-            set -g @tokyo-night-tmux_show_datetime 0
-            set -g @tokyo-night-tmux_show_git 0
-          '';
-        }
         {
           plugin = tmuxPlugins.resurrect;
           extraConfig = ''

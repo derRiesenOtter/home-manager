@@ -34,10 +34,15 @@
           plugin = markdown-nvim;
           config = toLua "require('markdown').setup()";
         }
+        # {
+        #   plugin = tokyonight-nvim;
+        #   config = "colorscheme tokyonight-night";
+        # }
         {
-          plugin = tokyonight-nvim;
-          config = "colorscheme tokyonight-night";
+          plugin = nightfox-nvim;
+          config = "colorscheme carbonfox";
         }
+
         {
           plugin = comment-nvim;
           config = toLua "require('Comment').setup()";
