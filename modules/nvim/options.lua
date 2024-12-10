@@ -1,4 +1,6 @@
 vim.cmd([[hi SignColumn guibg=NONE]])
+vim.cmd([[set cmdheight=0]])
+vim.diagnostic.config({ virtual_text = false })
 vim.opt.relativenumber = true
 vim.opt.number = true
 vim.opt.tabstop = 2

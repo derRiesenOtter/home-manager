@@ -63,7 +63,7 @@
         }
         {
           plugin = lualine-nvim;
-          config = toLua "require('lualine').setup()";
+          config = toLuaFile ./plugins/lualine.lua;
         }
         nvim-web-devicons
         {
